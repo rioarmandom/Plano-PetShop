@@ -36,4 +36,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_CUST);
         custCreate();
     }
+
+    public void loginUser(String username, String password) {
+        SQLiteDatabase db;
+    }
 }
