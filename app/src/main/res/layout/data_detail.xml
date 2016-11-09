@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?android:attr/actionBarSize"
+        android:background="?android:attr/colorPrimary"
+        android:elevation="4dp"
+        android:title="Detail Data"
+        android:titleTextAppearance="@style/Toolbar.TitleText"
+        android:theme="@android:style/ThemeOverlay.Material.Dark.ActionBar"
+        android:popupTheme="@android:style/ThemeOverlay.Material.Light"
+        tools:targetApi="lollipop" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" >
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="192dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Name (Owner)"
+                    android:id="@+id/textView10"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Address"
+                    android:id="@+id/textView11"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="7dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Phone Number"
+                    android:id="@+id/textView12"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="9dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Animal Type"
+                    android:id="@+id/textView13"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="9dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Animal Age"
+                    android:id="@+id/textView14"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="9dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Animal Sex"
+                    android:id="@+id/textView15"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="8dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+
+                <EditText
+                    android:layout_width="180dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/txtName"
+                    android:layout_marginRight="10dp" />
+
+                <EditText
+                    android:layout_width="180dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/txtAddress"
+                    android:layout_marginRight="10dp" />
+
+                <EditText
+                    android:layout_width="180dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/txtPhone"
+                    android:layout_marginRight="10dp" />
+
+                <EditText
+                    android:layout_width="180dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/txtAType"
+                    android:layout_marginRight="10dp" />
+
+                <EditText
+                    android:layout_width="180dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/txtAAge"
+                    android:layout_marginRight="10dp" />
+
+                <EditText
+                    android:layout_width="180dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/txtASex"
+                    android:layout_marginRight="10dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clear"
+                android:id="@+id/btnClear" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:id="@+id/btnDelete" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add"
+                android:id="@+id/btnAdd" />
+        </LinearLayout>
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="174dp"
+            android:id="@+id/listViewData" />
+
+    </LinearLayout>
+</LinearLayout>
