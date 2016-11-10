@@ -31,6 +31,9 @@
         <activity android:name=".SignUpPage"
             android:label="Sign Up Page">
         </activity>
+        <activity android:name=".MainMenu"
+            android:label="Main Menu Page">
+        </activity>
     </application>
 
 </manifest>

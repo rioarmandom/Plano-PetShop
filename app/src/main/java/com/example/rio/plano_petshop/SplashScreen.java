@@ -11,7 +11,7 @@ import android.os.Handler;
 
 public class SplashScreen extends Activity {
 
-    private final int SPLASH_LENGTH = 1000;
+    private final int SPLASH_LENGTH = 800;
 
     @Override
     public void onCreate(Bundle bundle) {

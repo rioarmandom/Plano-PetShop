@@ -23,7 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE "+TABLE_USER+" (name TEXT, username TEXT PRIMARY KEY, " +
-                "password TEXT, age INTEGER, address TEXT, birthday TEXT, phone_no TEXT)");
+                "password TEXT NOT NULL, age INTEGER, address TEXT, birthday TEXT, phone_no TEXT)");
         db.execSQL("CREATE TABLE "+TABLE_CUST+" (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, address TEXT, phone_no TEXT, " +
                 "ani_type TEXT, ani_age INTEGER, ani_sex TEXT)");
     }
