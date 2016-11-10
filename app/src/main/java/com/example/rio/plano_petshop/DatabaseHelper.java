@@ -9,11 +9,11 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final DATABASE_NAME = "PetShop.db";
-    public static final TABLE_USER = "user_petshop;
-    public static final TABLE_CUST = "cust_petshop";
+    public static final String DATABASE_NAME = "PetShop.db";
+    public static final String TABLE_USER = "user_petshop";
+    public static final String TABLE_CUST = "cust_petshop";
 
-    public DataBaseHelper(Context context) {
+    public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
         SQLiteDatabase db = this.getWritableDatabase();
     }
@@ -34,7 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void custUpgrade(SQLiteDatabase db, int OldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_CUST);
-        custCreate();
+        custCreate(db);
     }
 
     public void loginUser(String username, String password) {

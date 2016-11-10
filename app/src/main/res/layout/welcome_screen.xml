@@ -8,11 +8,11 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="PIANO PETSHOP\nAPP"
+        android:text="@string/welcome"
         android:id="@+id/textView"
         android:layout_gravity="center_vertical"
         android:gravity="center|center_horizontal"
-        android:textSize="40dp"
+        android:textSize="40sp"
         android:textStyle="bold"
         android:textColor="@color/colorPutih"/>
 </LinearLayout>

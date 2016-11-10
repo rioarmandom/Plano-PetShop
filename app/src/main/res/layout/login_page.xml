@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:orientation="vertical"
@@ -14,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Login"
+            android:text="@string/login"
             android:id="@+id/textView2"
             android:textSize="40dp"
             android:textIsSelectable="true"
@@ -24,34 +26,47 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/txtUsername"
-            android:hint="username"
+            android:hint="@string/prompt_username"
             android:layout_weight="0.15" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:ems="10"
+        <android.support.design.widget.TextInputLayout
             android:id="@+id/txtPassword"
-            android:hint="password" />
+            app:passwordToggleEnabled="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:hint="@string/prompt_password" />
+
+        </android.support.design.widget.TextInputLayout>
+
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Button
+            <Button style="?android:borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/btnSignIn"
                 android:layout_marginLeft="30dp"
-                android:text="Sign In"/>
+                android:text="@string/button_signin"
+                android:elevation="5dp"
+                tools:targetApi="21"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/btnSignUp"
+
                 android:layout_marginLeft="150dp"
-                android:text="Sign up"/>
+                android:text="@string/button_signup"
+                android:elevation="5dp"
+                tools:targetApi="21"/>
         </LinearLayout>
 
     </LinearLayout>

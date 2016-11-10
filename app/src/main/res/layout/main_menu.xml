@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
@@ -13,7 +14,7 @@
         android:minHeight="?android:attr/actionBarSize"
         android:background="?android:attr/colorPrimary"
         android:elevation="4dp"
-        android:title="Piano-Petshop"
+        android:title="@string/app_name"
         android:titleTextAppearance="@style/Toolbar.TitleText"
         android:theme="@android:style/ThemeOverlay.Material.Dark.ActionBar"
         android:popupTheme="@android:style/ThemeOverlay.Material.Light"
@@ -33,19 +34,24 @@
             <ImageButton
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:id="@+id/idID"
+                android:id="@+id/btnID"
                 android:background="@drawable/shape"
                 android:layout_marginTop="90dp"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:scaleType="fitCenter"
+                app:srcCompat="@android:drawable/ic_menu_myplaces"
+                android:elevation="5dp"
+                android:contentDescription="@string/id"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="ID"
+                android:text="@string/id"
+                android:textAllCaps="true"
                 android:id="@+id/textView4"
                 android:layout_gravity="center_horizontal"
-                android:textSize="30dp" />
+                android:textSize="30sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -57,28 +63,32 @@
             <ImageButton
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:id="@+id/imageButton4"
+                android:id="@+id/btnExport"
                 android:background="@drawable/shape"
                 android:layout_marginTop="250dp"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                app:srcCompat="@android:drawable/ic_menu_upload"
+                android:scaleType="fitCenter"
+                android:elevation="5dp"
+                android:contentDescription="@string/export"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Export"
+                android:text="@string/export"
                 android:id="@+id/textView5"
                 android:layout_gravity="center_horizontal"
-                android:textSize="30dp" />
+                android:textSize="30sp" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="LOGOUT"
-                android:id="@+id/Logout"
+                android:text="@string/logout"
+                android:id="@+id/btnLogout"
                 android:layout_marginTop="50dp"
                 android:layout_gravity="center_horizontal"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:elevation="5dp" />
 
         </LinearLayout>
@@ -92,19 +102,23 @@
             <ImageButton
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:id="@+id/idSearch"
+                android:src="@android:drawable/ic_menu_search"
+                android:scaleType="fitCenter"
+                android:id="@+id/btnSearch"
                 android:background="@drawable/shape"
                 android:layout_marginTop="90dp"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:elevation="5dp"
+                android:contentDescription="@string/search" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Search"
+                android:text="@string/search"
                 android:id="@+id/textView6"
                 android:layout_gravity="center_horizontal"
-                android:textSize="30dp" />
+                android:textSize="30sp" />
         </LinearLayout>
     </LinearLayout>
 

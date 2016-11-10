@@ -1,11 +1,15 @@
 <resources>
-    <string name="app_name">Plano-PetShop</string>
-
+    <string name="app_name">Piano-PetShop</string>
+    <string name="welcome">PIANO PETSHOP\nAPP</string>
+    <string name="FABBehavior">com.example.rio.plano_petshop.ScrollAwareFABBehavior</string>
     <!-- Strings related to login -->
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="prompt_username">Username</string>
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_password">Password</string>
+    <string name="prompt_repassword">Re-Password</string>
     <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
@@ -13,4 +17,26 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="button_signup">Sign Up</string>
+    <string name="button_signin">Sign In</string>
+    <string name="button_create">Create ID</string>
+
+    <!--String related to mainmenu-->
+    <string name="search">Search</string>
+    <string name="export">Export</string>
+    <string name="id">Id</string>
+
+    <!--String related to id-->
+    <string name="name">Name</string>
+    <string name="name_own">Name (Owner)</string>
+    <string name="address">Address</string>
+    <string name="age">Age</string>
+    <string name="birthday">Birthday</string>
+    <string name="phone_no">Phone Number</string>
+    <string name="anim_type">Animal Type</string>
+    <string name="anim_age">Animal Age</string>
+    <string name="anim_sex">Animal Sex</string>
+
+    <!--String related to title-->
+    <string name="edit_id">Edit Id</string>
 </resources>
