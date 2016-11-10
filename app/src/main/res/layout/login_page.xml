@@ -22,12 +22,18 @@
             android:textIsSelectable="true"
             android:layout_marginLeft="40dp" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <android.support.design.widget.TextInputLayout
             android:id="@+id/txtUsername"
-            android:hint="@string/prompt_username"
-            android:layout_weight="0.15" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_username"
+                android:layout_weight="0.15" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/txtPassword"
