@@ -16,37 +16,45 @@ public class LoginPage extends Activity {
 
     DatabaseHelper databaseHelper;
 
+    // Declaring input for process
     TextInputLayout txtPassword, txtUsername;
     Button btnSignUp, btnSignIn;
 
     @Override
     public void onCreate(Bundle bundle) {
+        // Show login screen
         super.onCreate(bundle);
         setContentView(R.layout.login_page);
+        // Add database
         databaseHelper = new DatabaseHelper(this);
 
+        // Declaring TextInputLayout with the id from xml file
         txtUsername = (TextInputLayout) findViewById(R.id.txtUsername);
         txtPassword = (TextInputLayout) findViewById(R.id.txtPassword);
 
+        // Declaring Button with the id from xml file
         btnSignUp = (Button) findViewById(R.id.btnSignUp);
+        btnSignIn = (Button) findViewById(R.id.btnSignIn);
+
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SignUpPage.class);
+            public void onClick(View v) { // What button will do if it pressed
+                Intent intent = new Intent(getApplicationContext(), SignUpPage.class); // Bring up Sign up Page
                 startActivity(intent);
                 finish();
             }
         });
 
-        btnSignIn = (Button) findViewById(R.id.btnSignIn);
+
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { // What button will do if it pressed
+                // Input from EditText and make it to string
                 String username = txtUsername.getEditText().getText().toString();
                 String password = txtPassword.getEditText().getText().toString();
-                System.out.println(username);
-                System.out.println(password);
+                // Save result value from running the goLogin method from DatabaseHelper class
                 int result = databaseHelper.goLogin(username, password);
+                // You know what is this (lol)
                 if (result == -1) {
                     Toast.makeText(getApplicationContext(), "Username not found", Toast.LENGTH_LONG).show();
                 } else if (result == 0) {
