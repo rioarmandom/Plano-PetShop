@@ -3,13 +3,9 @@ package com.example.rio.plano_petshop;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -46,15 +42,19 @@ public class LoginPage extends Activity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = txtUsername.getEditText().toString();
-                String password = txtPassword.getEditText().toString();
-                int result = databaseHelper.isLogin(username, password);
+                String username = txtUsername.getEditText().getText().toString();
+                String password = txtPassword.getEditText().getText().toString();
+                System.out.println(username);
+                System.out.println(password);
+                int result = databaseHelper.goLogin(username, password);
                 if (result == -1) {
                     Toast.makeText(getApplicationContext(), "Username not found", Toast.LENGTH_LONG).show();
                 } else if (result == 0) {
                     Toast.makeText(getApplicationContext(),  "Your password doesn't match", Toast.LENGTH_LONG).show();
                 } else {
-
+                    Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });
