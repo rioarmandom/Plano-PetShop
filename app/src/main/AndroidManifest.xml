@@ -12,7 +12,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/MyTheme">
+        android:theme="@style/MyMaterialTheme.Base">
         <activity
             android:name=".SplashScreen"
             android:label="@string/app_name"
@@ -32,7 +32,10 @@
             android:label="Sign Up Page">
         </activity>
         <activity android:name=".MainMenu"
-            android:label="Main Menu Page">
+            android:label="Main Page">
+        </activity>
+        <activity android:name=".AddCustPage"
+            android:label="Main Page">
         </activity>
     </application>
 

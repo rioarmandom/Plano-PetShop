@@ -2,9 +2,10 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#4CAF50</color>
     <color name="colorIjo">#009688</color>
-    <color name="colorPutih">#FFFFFF</color>
+    <color name="colorPutih">#ffffff</color>
     <color name="colorMyTheme.Primary">#2196F3</color>
     <color name="colorMyTheme.PrimaryDark">#1976D2</color>
+    <color name="grey">#eeeeee</color>
 </resources>

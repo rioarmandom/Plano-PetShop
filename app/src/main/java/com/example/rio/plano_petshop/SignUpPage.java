@@ -1,15 +1,14 @@
 package com.example.rio.plano_petshop;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -26,11 +25,12 @@ import java.util.Locale;
  * Created by almantera on 10/11/16.
  */
 
-public class SignUpPage extends Activity {
+public class SignUpPage extends AppCompatActivity {
 
     TextInputLayout txtName, txtUsername, txtAge, txtAddress, txtBirthday
             , txtEmail, txtPhone, txtPassword, txtRePassword;
     Button btnCreate;
+    Toolbar toolbar;
 
 //    DatePickerDialog dpdBirthday;
 //    SimpleDateFormat dateFormatter;
@@ -45,7 +45,9 @@ public class SignUpPage extends Activity {
         databaseHelper = new DatabaseHelper(getApplicationContext());
 //        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 //        setDateTimeField();
-
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.button_signup);
         txtName = (TextInputLayout) findViewById(R.id.txtName);
         txtName.requestFocus();
         txtUsername = (TextInputLayout) findViewById(R.id.txtUsername);
@@ -64,16 +66,16 @@ public class SignUpPage extends Activity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
                 String password = txtPassword.getEditText().getText().toString();
                 String repassword = txtRePassword.getEditText().getText().toString();
                 if (!password.equals(repassword)) {
                     txtRePassword.setError("Not match with password");
                 }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -111,6 +113,7 @@ public class SignUpPage extends Activity {
             }
         });
     }
+
 
 //    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 //    public void setDateTimeField() {

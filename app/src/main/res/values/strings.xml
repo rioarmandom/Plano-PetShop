@@ -25,6 +25,7 @@
     <string name="search">Search</string>
     <string name="export">Export</string>
     <string name="id">Id</string>
+    <string name="delete">Delete</string>
 
     <!--String related to id-->
     <string name="name">Name</string>

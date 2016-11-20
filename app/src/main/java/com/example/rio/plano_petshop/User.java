@@ -6,6 +6,7 @@ package com.example.rio.plano_petshop;
 
 public class User {
 
+    private int id;
     private String name;
     private String username;
     private int age;
@@ -32,6 +33,14 @@ public class User {
         this.birthday = birthday;
         this.email = email;
         this.phone_no = phone_no;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

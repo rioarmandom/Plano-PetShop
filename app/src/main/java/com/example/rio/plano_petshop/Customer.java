@@ -6,6 +6,7 @@ package com.example.rio.plano_petshop;
 
 public class Customer {
 
+    private int cust_id;
     private String name;
     private String address;
     private String phone_no;
@@ -29,6 +30,14 @@ public class Customer {
         this.ani_type = ani_type;
         this.ani_age = ani_age;
         this.ani_sex = ani_sex;
+    }
+
+    public int getCust_id() {
+        return cust_id;
+    }
+
+    public void setCust_id(int cust_id) {
+        this.cust_id = cust_id;
     }
 
     public String getName() {
@@ -78,5 +87,4 @@ public class Customer {
     public void setAni_sex(String ani_sex) {
         this.ani_sex = ani_sex;
     }
-
 }
