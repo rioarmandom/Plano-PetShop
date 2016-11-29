@@ -16,7 +16,6 @@ import android.view.View;
 /**
  * Created by almanalfaruq on 18/11/2016.
  */
-// Todo : delete customer
 // Todo : search customer
 public class MainMenu extends AppCompatActivity {
 
@@ -26,12 +25,14 @@ public class MainMenu extends AppCompatActivity {
     ViewPager viewPager;
     FloatingActionButton fabAdd;
     DatabaseHelper databaseHelper;
+    Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainmenu);
         databaseHelper = new DatabaseHelper(this);
+        bundle = new Bundle();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -96,8 +97,8 @@ public class MainMenu extends AppCompatActivity {
 
     //Setting View Pager
     private void setupViewPager(ViewPager viewPager) {
-        adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new RecyclerViewFragment(), "RecyclerView");
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), bundle);
+        adapter.addFrag(new CustomerFragment(), "RecyclerView", bundle);
         viewPager.setAdapter(adapter);
     }
 

@@ -12,44 +12,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by almanalfaruq on 19/11/2016.
+ * Created by almanalfaruq on 22/11/2016.
  */
 
-public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.CustomerViewHolder> {
+public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.AnimalViewHolder> {
 
-    private List<Customer> customerList = new ArrayList<>();
+    private List<Animal> animalsList = new ArrayList<>();
     private Context context;
     private SparseBooleanArray mSelectedItemsIds;
     private DatabaseHelper databaseHelper;
 
-    public CustomerAdapter(Context context, List<Customer> customerList) {
+    public AnimalAdapter(Context context, List<Animal> animalList) {
         databaseHelper = new DatabaseHelper(context);
         this.context = context;
-        this.customerList = customerList;
+        this.animalsList = animalList;
         mSelectedItemsIds = new SparseBooleanArray();
 
     }
 
     @Override
-    public CustomerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AnimalViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater mInflater = LayoutInflater.from(parent.getContext());
 
         ViewGroup mainGroup = (ViewGroup) mInflater.inflate(
-                R.layout.customer_row, parent, false);
-        return new CustomerViewHolder(mainGroup);
+                R.layout.animal_row, parent, false);
+        return new AnimalViewHolder(mainGroup);
     }
 
     @Override
-    public void onBindViewHolder(CustomerViewHolder holder, int position) {
-        holder.txtName.setText(customerList.get(position).getName());
-        holder.txtPhone.setText(customerList.get(position).getPhone_no());
+    public void onBindViewHolder(AnimalViewHolder holder, int position) {
+        holder.txtAniType.setText(animalsList.get(position).getAni_type());
+        holder.txtAniAge.setText(animalsList.get(position).getAni_age());
+        holder.txtAniSex.setText(animalsList.get(position).getAni_sex());
     }
 
 
 
     @Override
     public int getItemCount() {
-        return customerList.size();
+        return animalsList.size();
     }
 
     public void toggleSelection(int position) {
@@ -84,14 +85,15 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Custom
         return mSelectedItemsIds;
     }
 
-    public static class CustomerViewHolder extends RecyclerView.ViewHolder {
+    public static class AnimalViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtName, txtPhone, txtAnimal;
+        TextView txtAniType, txtAniAge, txtAniSex;
 
-        public CustomerViewHolder(View itemView) {
+        public AnimalViewHolder(View itemView) {
             super(itemView);
-            txtName = (TextView) itemView.findViewById(R.id.txtName);
-            txtPhone = (TextView) itemView.findViewById(R.id.txtPhone);
+            txtAniType = (TextView) itemView.findViewById(R.id.txtAniType);
+            txtAniAge = (TextView) itemView.findViewById(R.id.txtAniAge);
+            txtAniSex = (TextView) itemView.findViewById(R.id.txtAniSex);
         }
     }
 

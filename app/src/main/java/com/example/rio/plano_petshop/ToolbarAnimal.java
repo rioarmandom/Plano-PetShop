@@ -9,19 +9,19 @@ import android.view.MenuItem;
 import java.util.List;
 
 /**
- * Created by almanalfaruq on 18/11/2016.
+ * Created by almanalfaruq on 22/11/2016.
  */
 
-public class ToolbarActionMode implements ActionMode.Callback {
+public class ToolbarAnimal implements ActionMode.Callback {
 
     private Context context;
-    private CustomerAdapter customerAdapter;
-    private List<Customer> customers;
+    private AnimalAdapter animalAdapter;
+    private List<Animal> animals;
 
-    public ToolbarActionMode(Context context, CustomerAdapter customerAdapter, List<Customer> customers) {
+    public ToolbarAnimal(Context context, AnimalAdapter animalAdapter, List<Animal> animalList) {
         this.context = context;
-        this.customerAdapter = customerAdapter;
-        this.customers = customers;
+        this.animalAdapter = animalAdapter;
+        this.animals = animalList;
     }
 
     @Override
@@ -40,10 +40,10 @@ public class ToolbarActionMode implements ActionMode.Callback {
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_delete:
-                Fragment recyclerFragment = new MainMenu().getFragment(1);//Get recycler view fragment
+                Fragment recyclerFragment = new MainMenu().getFragment(0);//Get recycler view fragment
                 if (recyclerFragment != null)
                     //If recycler fragment not null
-                    ((RecyclerViewFragment) recyclerFragment).deleteRows();//delete selected rows
+                    ((AnimalFragment) recyclerFragment).deleteRows();//delete selected rows
                 break;
         }
         return false;
@@ -53,9 +53,9 @@ public class ToolbarActionMode implements ActionMode.Callback {
     public void onDestroyActionMode(ActionMode mode) {
         //When action mode destroyed remove selected selections and set action mode to null
         //First check current fragment action mode
-        customerAdapter.removeSelection();  // remove selection
-        Fragment recyclerFragment = new MainMenu().getFragment(1);//Get recycler fragment
+        animalAdapter.removeSelection();  // remove selection
+        Fragment recyclerFragment = new MainMenu().getFragment(0);//Get recycler fragment
         if (recyclerFragment != null)
-            ((RecyclerViewFragment) recyclerFragment).setNullToActionMode();//Set action mode null
+            ((AnimalFragment) recyclerFragment).setNullToActionMode();//Set action mode null
     }
 }

@@ -35,7 +35,13 @@
             android:label="Main Page">
         </activity>
         <activity android:name=".AddCustPage"
-            android:label="Main Page">
+            android:label="Add Customer">
+        </activity>
+        <activity android:name=".AnimalMenu"
+            android:label="Animal Page">
+        </activity>
+        <activity android:name=".AddAnimPage"
+            android:label="Add Animal">
         </activity>
     </application>
 

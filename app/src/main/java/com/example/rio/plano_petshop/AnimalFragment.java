@@ -1,12 +1,13 @@
 package com.example.rio.plano_petshop;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,26 +18,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by almanalfaruq on 18/11/2016.
+ * Created by almanalfaruq on 22/11/2016.
  */
 
-public class RecyclerViewFragment extends Fragment {
+public class AnimalFragment extends Fragment {
 
-    private static View view;
-    private static RecyclerView recyclerView;
-    private static List<Customer> customerList = new ArrayList<>();
-    private static CustomerAdapter adapter;
+    private View view;
+    private RecyclerView recyclerView;
+    private static List<Animal> animalList = new ArrayList<>();
+    private AnimalAdapter adapter;
     private ActionMode mActionMode;
     private DatabaseHelper databaseHelper;
-
-    public RecyclerViewFragment() {
-    }
+    Bundle bundle;
+    String phone;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.recycler_view, container, false);
         databaseHelper = new DatabaseHelper(getActivity());
+        bundle = this.getArguments();
+        if (bundle!=null) {
+            phone = bundle.getString("phone_no");
+        }
         populateRecyclerView();
         implementRecyclerViewClickListeners();
         return view;
@@ -47,8 +51,10 @@ public class RecyclerViewFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        customerList = databaseHelper.getAllCust();
-        adapter = new CustomerAdapter(getActivity(), customerList);
+        Log.d("Phone", phone);
+        int cust_id = databaseHelper.getIdCust(phone);
+        animalList = databaseHelper.getAnimal(cust_id);
+        adapter = new AnimalAdapter(getActivity(), animalList);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -61,6 +67,9 @@ public class RecyclerViewFragment extends Fragment {
                 //If ActionMode not null select item
                 if (mActionMode != null)
                     onListItemSelect(position);
+//                Animal animal = animalList.get(position);
+//                String nama = animal.getName();
+//                Toast.makeText(getActivity(), "Anda memilih " + nama, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -80,7 +89,7 @@ public class RecyclerViewFragment extends Fragment {
 
         if (hasCheckedItems && mActionMode == null)
             // there are some selected items, start the actionMode
-            mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new ToolbarActionMode(getActivity(),adapter, customerList));
+            mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new ToolbarAnimal(getActivity(), adapter, animalList));
         else if (!hasCheckedItems && mActionMode != null)
             // there no selected items, finish the actionMode
             mActionMode.finish();
@@ -89,9 +98,10 @@ public class RecyclerViewFragment extends Fragment {
             //set action mode title on item selection
             mActionMode.setTitle(String.valueOf(adapter
                     .getSelectedCount()) + " selected");
-
+        adapter.getItemId(position);
 
     }
+
     //Set action mode null after use
     public void setNullToActionMode() {
         if (mActionMode != null)
@@ -100,14 +110,15 @@ public class RecyclerViewFragment extends Fragment {
 
     //Delete selected rows
     public void deleteRows() {
-        SparseBooleanArray selected = adapter
-                .getSelectedIds();//Get selected ids
+        SparseBooleanArray selected = adapter.getSelectedIds();//Get selected ids
+
 
         //Loop all selected ids
         for (int i = (selected.size() - 1); i >= 0; i--) {
             if (selected.valueAt(i)) {
                 //If current id is selected remove the item via key
-                customerList.remove(selected.keyAt(i));
+                animalList.remove(selected.keyAt(i));
+
                 adapter.notifyDataSetChanged();//notify adapter
 
             }
