@@ -50,49 +50,12 @@ public class AnimalMenu extends AppCompatActivity {
         });
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.setting, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.actionLogout) {
-//            new AlertDialog.Builder(AnimalMenu.this)
-//                    .setTitle("Logout")
-//                    .setMessage("Are you sure want to log out?")
-//                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            if (databaseHelper.updateLogStatus()) {
-//                                Intent intent = new Intent(AnimalMenu.this, LoginPage.class);
-//                                startActivity(intent);
-//                                finish();
-//                            } else {
-//                                dialog.cancel();
-//                            }
-//                        }
-//                    })
-//                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.cancel();
-//                        }
-//                    })
-//                    .setIcon(android.R.drawable.ic_dialog_alert)
-//                    .show();
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(AnimalMenu.this, MainMenu.class);
+        startActivity(intent);
+        finish();
+    }
 
     //Setting View Pager
     private void setupViewPager(ViewPager viewPager, Bundle pageBundle) {

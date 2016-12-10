@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,32 +14,39 @@ import java.util.List;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    Customer customer;
+    private Customer customer;
     User user;
-    Animal animal;
+    private Animal animal;
 
-    public static final String DATABASE_NAME = "PetShop.db";
-    public static final String TABLE_USER = "user_petshop";
-    public static final String TABLE_CUST = "cust_petshop";
-    public static final String TABLE_ANI = "ani_petshop";
+    private static final String DATABASE_NAME = "PetShop.db";
+    private static final String TABLE_USER = "user_petshop";
+    private static final String TABLE_CUST = "cust_petshop";
+    private static final String TABLE_ANI = "ani_petshop";
+    private static final String TABLE_ANAM = "anam_petshop";
 
-    public static final String NAME_USER = "name";
-    public static final String UNAME_USER = "username";
-    public static final String PASS_USER = "password";
-    public static final String AGE_USER = "age";
-    public static final String ADDRESS_USER = "address";
-    public static final String BIRTH_USER = "birthday";
-    public static final String PHONE_USER = "phone_no";
-    public static final String LOG_USER = "log_status";
+    private static final String NAME_USER = "name";
+    private static final String UNAME_USER = "username";
+    private static final String PASS_USER = "password";
+    private static final String AGE_USER = "age";
+    private static final String ADDRESS_USER = "address";
+    private static final String BIRTH_USER = "birthday";
+    private static final String PHONE_USER = "phone_no";
+    private static final String LOG_USER = "log_status";
 
-    public static final String ID_CUST = "cust_id";
-    public static final String NAME_CUST = "name";
-    public static final String ADDRESS_CUST = "address";
-    public static final String PHONE_CUST = "phone_no";
+    private static final String ID_CUST = "cust_id";
+    private static final String NAME_CUST = "name";
+    private static final String ADDRESS_CUST = "address";
+    private static final String PHONE_CUST = "phone_no";
 
-    public static final String TYPE_ANI = "ani_type";
-    public static final String AGE_ANI = "ani_age";
-    public static final String SEX_ANI = "ani_sex";
+    private static final String ID_ANI = "ani_id";
+    private static final String TYPE_ANI = "ani_type";
+    private static final String AGE_ANI = "ani_age";
+    private static final String SEX_ANI = "ani_sex";
+
+    private static final String ID_ANAM = "anam_id";
+    private static final String ANAMNESA = "anamnesa";
+    private static final String TERAPHY = "teraphy";
+    private static final String DATE = "date";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -53,13 +59,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "password TEXT NOT NULL, age INTEGER, address TEXT, birthday TEXT, phone_no TEXT, log_status INTEGER)");
         db.execSQL("CREATE TABLE "+TABLE_CUST+" (cust_id INTEGER DEFAULT 1, name TEXT, address TEXT" +
                 ", phone_no TEXT PRIMARY KEY) ");
-        db.execSQL("CREATE TABLE "+TABLE_ANI+" (cust_id INTEGER, ani_type TEXT, ani_age INTEGER, ani_sex TEXT) ");
+        db.execSQL("CREATE TABLE "+TABLE_ANI+" (ani_id INTEGER PRIMARY KEY AUTO_INCREMENT , cust_id INTEGER, " +
+                "ani_type TEXT, ani_age INTEGER, ani_sex TEXT, FOREIGN KEY (cust_id) REFERENCES cust_petshop(cust_id)) ");
+        db.execSQL("CREATE TABLE "+TABLE_ANAM+" (anam_id INTEGER PRIMARY KEY AUTO_INCREMENT, ani_id INTEGER, " +
+                "anamnesa TEXT, teraphy TEXT, date TEXT NOT NULL, FOREIGN KEY (ani_id) REFERENCES ani_petshop(ani_id)");
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CUST);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ANI);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ANAM);
         onCreate(db);
     }
 
@@ -153,7 +163,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                animal = new Animal(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getString(3));
+                animal = new Animal(cursor.getInt(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4));
                 animalList.add(animal);
             } while (cursor.moveToNext());
         }
@@ -212,8 +222,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return i;
     }
 
+    public List<Customer> searchCustomer(String name) {
+        List<Customer> customerList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_CUST + " WHERE " + NAME_CUST + " LIKE '%" + name + "%'", null);
+        if (cursor.moveToFirst()) {
+            do {
+                customer = new Customer(cursor.getString(1), cursor.getString(2), cursor.getString(3));
+                customerList.add(customer);
+            } while (cursor.moveToNext());
+        }
+        return customerList;
+    }
+
     public int deleteCust(String phone_no) {
         SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_CUST, null, "phone_no=?", new String[]{phone_no}, null, null, null);
+        int cust_id = 0;
+        if (cursor.moveToFirst()) {
+            cust_id = cursor.getInt(cursor.getColumnIndex(ID_CUST));
+        }
+        db.delete(TABLE_ANI, "cust_id=?", new String[]{String.valueOf(cust_id)});
         int i = db.delete(TABLE_CUST, "phone_no=?", new String[]{phone_no});
         return i;
     }

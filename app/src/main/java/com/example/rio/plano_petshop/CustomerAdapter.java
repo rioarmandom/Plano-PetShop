@@ -45,8 +45,6 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Custom
         holder.txtPhone.setText(customerList.get(position).getPhone_no());
     }
 
-
-
     @Override
     public int getItemCount() {
         return customerList.size();
@@ -86,7 +84,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Custom
 
     public static class CustomerViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtName, txtPhone, txtAnimal;
+        TextView txtName, txtPhone;
 
         public CustomerViewHolder(View itemView) {
             super(itemView);

@@ -8,7 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
+
+import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 /**
  * Created by almanalfaruq on 22/11/2016.
@@ -18,8 +22,10 @@ public class AddAnimPage extends AppCompatActivity {
 
     Toolbar toolbar;
     FloatingActionButton fabSave;
-    TextInputLayout txtAniType, txtAniAge, txtAniSex;
+    TextInputLayout txtAniType, txtAniAge;
     DatabaseHelper dbHelper;
+    String[] spinnerList = {"Male", "Female"};
+    String stAniSex;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,9 +36,26 @@ public class AddAnimPage extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("ADD ANIMAL");
 
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, spinnerList);
+        MaterialBetterSpinner txtAniSex = (MaterialBetterSpinner)
+                findViewById(R.id.txtAniSex);
+
         txtAniType = (TextInputLayout) findViewById(R.id.txtAniType);
         txtAniAge = (TextInputLayout) findViewById(R.id.txtAniAge);
-        txtAniSex = (TextInputLayout) findViewById(R.id.txtAniSex);
+        txtAniSex.setAdapter(arrayAdapter);
+        txtAniSex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                stAniSex = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+//        txtAniSex = (TextInputLayout) findViewById(R.id.txtAniSex);
 
         fabSave = (FloatingActionButton) findViewById(R.id.fabSave);
         fabSave.setOnClickListener(new View.OnClickListener() {
@@ -40,7 +63,7 @@ public class AddAnimPage extends AppCompatActivity {
             public void onClick(View v) {
                 String ani_type = txtAniType.getEditText().getText().toString();
                 int ani_age = Integer.parseInt(txtAniAge.getEditText().getText().toString());
-                String ani_sex = txtAniSex.getEditText().getText().toString();
+                String ani_sex = stAniSex;
                 String phone = getIntent().getStringExtra("phone_no");
                 Log.d("Phone", phone);
                 int cust_id = dbHelper.getIdCust(phone);

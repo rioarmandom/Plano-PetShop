@@ -110,7 +110,6 @@ public class CustomerFragment extends Fragment {
     public void deleteRows() {
         SparseBooleanArray selected = adapter.getSelectedIds();//Get selected ids
 
-
         //Loop all selected ids
         for (int i = (selected.size() - 1); i >= 0; i--) {
             if (selected.valueAt(i)) {
@@ -126,6 +125,17 @@ public class CustomerFragment extends Fragment {
         }
         Toast.makeText(getActivity(), selected.size() + " item deleted.", Toast.LENGTH_SHORT).show();//Show Toast
         mActionMode.finish();//Finish action mode after use
+    }
 
+    public void filter(String name) {
+        customerList.clear();
+        if (name.isEmpty()) {
+            customerList.addAll(databaseHelper.getAllCust());
+        } else {
+            List<Customer> customers = new ArrayList<>();
+            customers = databaseHelper.searchCustomer(name);
+            customerList.addAll(customers);
+        }
+        adapter.notifyDataSetChanged();
     }
 }

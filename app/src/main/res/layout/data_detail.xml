@@ -6,19 +6,9 @@
     xmlns:fab="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <include
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="?android:attr/actionBarSize"
-        android:background="?android:attr/colorPrimary"
-        android:elevation="4dp"
-        android:title="Detail Data"
-        android:titleTextAppearance="@style/Toolbar.TitleText"
-        android:theme="@android:style/ThemeOverlay.Material.Dark.ActionBar"
-        android:popupTheme="@android:style/ThemeOverlay.Material.Light"
-        tools:targetApi="lollipop" />
+        layout="@layout/toolbar"/>
 
     <LinearLayout
         android:orientation="vertical"
@@ -149,8 +139,17 @@
                 android:layout_height="258dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:id="@+id/listViewData">
+                android:id="@+id/rvAnamnesa">
             </android.support.v7.widget.RecyclerView>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fabAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:layout_margin="@dimen/fab_margin"
+                android:src="@android:drawable/ic_input_add"
+                android:tint="@color/colorPutih" />
 
         </android.support.design.widget.CoordinatorLayout>
 

@@ -5,13 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 /**
  * Created by almanalfaruq on 18/11/2016.
@@ -90,6 +93,27 @@ public class MainMenu extends AppCompatActivity {
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
+        } else if (id == R.id.actionSearch) {
+            final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    Fragment recyclerFragment = new MainMenu().getFragment(0);//Get recycler fragment
+                    Toast.makeText(MainMenu.this, "Search for " + query, Toast.LENGTH_SHORT).show();
+                    if (recyclerFragment != null)
+                        ((CustomerFragment) recyclerFragment).filter(query);
+                    return true;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    Fragment recyclerFragment = new MainMenu().getFragment(0);//Get recycler fragment
+                    Toast.makeText(MainMenu.this, "Search for " + newText, Toast.LENGTH_SHORT).show();
+                    if (recyclerFragment != null)
+                        ((CustomerFragment) recyclerFragment).filter(newText);
+                    return true;
+                }
+            });
         }
 
         return super.onOptionsItemSelected(item);

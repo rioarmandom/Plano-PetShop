@@ -42,11 +42,9 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.AnimalView
     @Override
     public void onBindViewHolder(AnimalViewHolder holder, int position) {
         holder.txtAniType.setText(animalsList.get(position).getAni_type());
-        holder.txtAniAge.setText(animalsList.get(position).getAni_age());
+        holder.txtAniAge.setText(String.valueOf(animalsList.get(position).getAni_age()));
         holder.txtAniSex.setText(animalsList.get(position).getAni_sex());
     }
-
-
 
     @Override
     public int getItemCount() {
