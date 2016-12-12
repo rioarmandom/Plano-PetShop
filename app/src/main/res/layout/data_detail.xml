@@ -58,6 +58,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/anim_name"
+                    android:id="@+id/textView18"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="9dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/anim_type"
                     android:id="@+id/textView13"
                     android:layout_marginLeft="20dp"
@@ -95,7 +104,7 @@
                     android:id="@+id/txtName"
                     android:layout_marginRight="10dp" />
 
-                <EditText
+                <TextView
                     android:layout_width="180dp"
                     android:layout_height="30dp"
                     android:id="@+id/txtAddress"
@@ -107,24 +116,31 @@
                     android:id="@+id/txtPhone"
                     android:layout_marginRight="10dp" />
 
-                <EditText
+                <TextView
                     android:layout_width="180dp"
                     android:layout_height="30dp"
-                    android:id="@+id/txtAType"
+                    android:id="@+id/txtAniName"
                     android:layout_marginRight="10dp" />
 
                 <TextView
                     android:layout_width="180dp"
                     android:layout_height="30dp"
-                    android:id="@+id/txtAAge"
+                    android:id="@+id/txtAniType"
                     android:layout_marginRight="10dp" />
 
                 <TextView
                     android:layout_width="180dp"
                     android:layout_height="30dp"
-                    android:id="@+id/txtASex"
+                    android:id="@+id/txtAniAge"
+                    android:layout_marginRight="10dp" />
+
+                <TextView
+                    android:layout_width="180dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/txtAniSex"
                     android:layout_marginRight="10dp" />
             </LinearLayout>
+
         </LinearLayout>
 
         <android.support.design.widget.CoordinatorLayout
@@ -139,6 +155,7 @@
                 android:layout_height="258dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:scrollbars="vertical"
                 android:id="@+id/rvAnamnesa">
             </android.support.v7.widget.RecyclerView>
 
@@ -154,4 +171,5 @@
         </android.support.design.widget.CoordinatorLayout>
 
     </LinearLayout>
+
 </LinearLayout>

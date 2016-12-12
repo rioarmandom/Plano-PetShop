@@ -22,7 +22,7 @@ public class AddAnimPage extends AppCompatActivity {
 
     Toolbar toolbar;
     FloatingActionButton fabSave;
-    TextInputLayout txtAniType, txtAniAge;
+    TextInputLayout txtAniType, txtAniAge, txtAniName;
     DatabaseHelper dbHelper;
     String[] spinnerList = {"Male", "Female"};
     String stAniSex;
@@ -41,6 +41,7 @@ public class AddAnimPage extends AppCompatActivity {
         MaterialBetterSpinner txtAniSex = (MaterialBetterSpinner)
                 findViewById(R.id.txtAniSex);
 
+        txtAniName = (TextInputLayout) findViewById(R.id.txtAniName);
         txtAniType = (TextInputLayout) findViewById(R.id.txtAniType);
         txtAniAge = (TextInputLayout) findViewById(R.id.txtAniAge);
         txtAniSex.setAdapter(arrayAdapter);
@@ -61,6 +62,7 @@ public class AddAnimPage extends AppCompatActivity {
         fabSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String ani_name = txtAniName.getEditText().getText().toString();
                 String ani_type = txtAniType.getEditText().getText().toString();
                 int ani_age = Integer.parseInt(txtAniAge.getEditText().getText().toString());
                 String ani_sex = stAniSex;
@@ -68,7 +70,7 @@ public class AddAnimPage extends AppCompatActivity {
                 Log.d("Phone", phone);
                 int cust_id = dbHelper.getIdCust(phone);
                 if (cust_id != 0) {
-                    if (dbHelper.createAnimal(new Animal(cust_id, ani_type, ani_age, ani_sex))) {
+                    if (dbHelper.createAnimal(new Animal(cust_id, ani_name, ani_type, ani_age, ani_sex))) {
                         Toast.makeText(getApplicationContext(), "Animal added", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(AddAnimPage.this, AnimalMenu.class);
                         intent.putExtra("phone_no", phone);

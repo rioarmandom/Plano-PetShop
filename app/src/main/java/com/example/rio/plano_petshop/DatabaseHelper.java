@@ -12,11 +12,13 @@ import java.util.List;
 /**
  * Created by rio on 29/08/2016.
  */
+// TODO : ANIMAL DETAIL
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private Customer customer;
     User user;
     private Animal animal;
+    private Anamnesa anamnesa;
 
     private static final String DATABASE_NAME = "PetShop.db";
     private static final String TABLE_USER = "user_petshop";
@@ -39,14 +41,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String PHONE_CUST = "phone_no";
 
     private static final String ID_ANI = "ani_id";
+    private static final String NAME_ANI = "ani_name";
     private static final String TYPE_ANI = "ani_type";
     private static final String AGE_ANI = "ani_age";
     private static final String SEX_ANI = "ani_sex";
 
     private static final String ID_ANAM = "anam_id";
-    private static final String ANAMNESA = "anamnesa";
-    private static final String TERAPHY = "teraphy";
-    private static final String DATE = "date";
+    private static final String ANAMNESA_ANAM = "anamnesa";
+    private static final String TERAPHY_ANAM = "teraphy";
+    private static final String DATE_ANAM = "date";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -58,11 +61,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE "+TABLE_USER+" (name TEXT, username TEXT PRIMARY KEY, " +
                 "password TEXT NOT NULL, age INTEGER, address TEXT, birthday TEXT, phone_no TEXT, log_status INTEGER)");
         db.execSQL("CREATE TABLE "+TABLE_CUST+" (cust_id INTEGER DEFAULT 1, name TEXT, address TEXT" +
-                ", phone_no TEXT PRIMARY KEY) ");
-        db.execSQL("CREATE TABLE "+TABLE_ANI+" (ani_id INTEGER PRIMARY KEY AUTO_INCREMENT , cust_id INTEGER, " +
-                "ani_type TEXT, ani_age INTEGER, ani_sex TEXT, FOREIGN KEY (cust_id) REFERENCES cust_petshop(cust_id)) ");
+                ", phone_no TEXT PRIMARY KEY)");
+        db.execSQL("CREATE TABLE "+TABLE_ANI+" (ani_id INTEGER PRIMARY KEY AUTO_INCREMENT, cust_id INTEGER, " +
+                "ani_name TEXT, ani_type TEXT, ani_age INTEGER, ani_sex TEXT)");
         db.execSQL("CREATE TABLE "+TABLE_ANAM+" (anam_id INTEGER PRIMARY KEY AUTO_INCREMENT, ani_id INTEGER, " +
-                "anamnesa TEXT, teraphy TEXT, date TEXT NOT NULL, FOREIGN KEY (ani_id) REFERENCES ani_petshop(ani_id)");
+                "date TEXT NOT NULL, anamnesa TEXT, teraphy TEXT)");
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -132,10 +135,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ID_CUST, animal.getCust_id());
+        values.put(NAME_ANI, animal.getAni_name());
         values.put(TYPE_ANI, animal.getAni_type());
         values.put(AGE_ANI, animal.getAni_age());
         values.put(SEX_ANI, animal.getAni_sex());
         long result = db.insert(TABLE_ANI, null, values);
+        db.close();
+        return result != -1;
+    }
+
+    public boolean createAnamnesa(Anamnesa anamnesa) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(ID_ANI, anamnesa.getAni_id());
+        values.put(DATE_ANAM, anamnesa.getDate());
+        values.put(ANAMNESA_ANAM, anamnesa.getAnamnesa());
+        values.put(TERAPHY_ANAM, anamnesa.getTeraphy());
+        long result = db.insert(TABLE_ANAM, null, values);
         db.close();
         return result != -1;
     }
@@ -163,7 +179,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                animal = new Animal(cursor.getInt(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4));
+                animal = new Animal(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(2),
+                        cursor.getInt(3), cursor.getString(4));
                 animalList.add(animal);
             } while (cursor.moveToNext());
         }
@@ -178,11 +195,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                animal = new Animal(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getString(3));
+                animal = new Animal(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(2),
+                        cursor.getInt(3), cursor.getString(4));
                 animalList.add(animal);
             } while (cursor.moveToNext());
         }
         return animalList;
+    }
+
+    public List<Anamnesa> getAnamnesa(int ani_id) {
+        List<Anamnesa> anamnesaList = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TABLE_ANAM + " WHERE ani_id=" + String.valueOf(ani_id);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                anamnesa = new Anamnesa(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3),
+                        cursor.getString(4));
+                anamnesaList.add(anamnesa);
+            } while (cursor.moveToNext());
+        }
+        return anamnesaList;
     }
 
     public boolean logStatus() {
@@ -222,6 +256,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return i;
     }
 
+    public String getAddressCust(String phone_no) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_CUST, null, "phone_no=?", new String[]{phone_no}, null, null, null);
+        String i="";
+        if (cursor.moveToFirst()) {
+            i = cursor.getString(cursor.getColumnIndex(ADDRESS_CUST));
+        }
+        return i;
+    }
+
     public List<Customer> searchCustomer(String name) {
         List<Customer> customerList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -246,4 +290,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int i = db.delete(TABLE_CUST, "phone_no=?", new String[]{phone_no});
         return i;
     }
+
 }

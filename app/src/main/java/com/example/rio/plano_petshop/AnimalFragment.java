@@ -1,5 +1,6 @@
 package com.example.rio.plano_petshop;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -67,8 +68,20 @@ public class AnimalFragment extends Fragment {
                 //If ActionMode not null select item
                 if (mActionMode != null)
                     onListItemSelect(position);
-//                Animal animal = animalList.get(position);
-//                String nama = animal.getName();
+                Animal animal = animalList.get(position);
+                String ani_id = String.valueOf(animal.getAni_id());
+                String ani_name = animal.getAni_name();
+                String ani_type = animal.getAni_type();
+                String ani_age = String.valueOf(animal.getAni_age());
+                String ani_sex = animal.getAni_sex();
+                Intent intent = new Intent(getActivity(), AnimalDetail.class);
+                intent.putExtra("phone_no", phone);
+                intent.putExtra("ani_id", ani_id);
+                intent.putExtra("ani_name", ani_name);
+                intent.putExtra("ani_type", ani_type);
+                intent.putExtra("ani_age", ani_age);
+                intent.putExtra("ani_sex", ani_sex);
+                startActivity(intent);
 //                Toast.makeText(getActivity(), "Anda memilih " + nama, Toast.LENGTH_SHORT).show();
             }
 

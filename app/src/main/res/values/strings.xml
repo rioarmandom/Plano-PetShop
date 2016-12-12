@@ -35,6 +35,7 @@
     <string name="birthday">Birthday</string>
     <string name="prompt_birth">Birthday (dd-MM-yyyy)</string>
     <string name="phone_no">Phone Number</string>
+    <string name="anim_name">Animal Name</string>
     <string name="anim_type">Animal Type</string>
     <string name="anim_age">Animal Age</string>
     <string name="anim_sex">Animal Sex</string>
