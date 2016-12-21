@@ -53,25 +53,23 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:weightSum="1">
 
-            <Button style="?android:borderlessButtonStyle"
+            <Button
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/btnSignIn"
-                android:layout_marginLeft="30dp"
-                android:text="@string/button_signin"
-                android:elevation="5dp"
-                tools:targetApi="21"/>
+                android:layout_weight="0.5"
+                android:text="@string/button_signin"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/btnSignUp"
-
-                android:layout_marginLeft="150dp"
-                android:text="@string/button_signup"
-                android:elevation="5dp"
-                tools:targetApi="21"/>
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_weight="0.5"
+                android:text="@string/button_signup"/>
         </LinearLayout>
 
     </LinearLayout>

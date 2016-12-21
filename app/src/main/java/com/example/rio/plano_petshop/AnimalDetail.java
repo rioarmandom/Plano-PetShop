@@ -2,16 +2,19 @@ package com.example.rio.plano_petshop;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -20,19 +23,19 @@ import java.util.List;
 /**
  * Created by almanalfaruq on 13/12/2016.
  */
-
-// TODO : Adding anamnesa with builder (popup dialog)
 public class AnimalDetail extends AppCompatActivity {
 
     Toolbar toolbar;
     FloatingActionButton fabAdd;
-    TextView txtName, txtAddress, txtPhone, txtAniName, txtAniType, txtAniAge, txtAniSex;
+    TextInputLayout txtName, txtAddress, txtPhone, txtAniName, txtAniType, txtAniAge, txtAniSex;
     RecyclerView rvAnamnesa;
     private static List<Anamnesa> anamnesaList = new ArrayList<>();
     ActionMode mActionMode;
     AnamAdapter anamAdapter;
+    Animal animal;
     DatabaseHelper dbHelper;
-    int ani_id;
+    String phone;
+    int ani_id, anam_id;
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -44,25 +47,48 @@ public class AnimalDetail extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("DETAIL ANIMAL");
 
-        String phone = getIntent().getStringExtra("phone_no");
-        String name = dbHelper.getNameCust(phone);
+        phone = getIntent().getStringExtra("phone_no");
+        String nameCust = dbHelper.getNameCust(phone);
         String address = dbHelper.getAddressCust(phone);
-        txtName = (TextView) findViewById(R.id.txtName);
-        txtName.setText(name);
-        txtAddress = (TextView) findViewById(R.id.txtAddress);
-        txtAddress.setText(address);
-        txtPhone = (TextView) findViewById(R.id.txtPhone);
-        txtPhone.setText(phone);
-        txtAniName = (TextView) findViewById(R.id.txtAniName);
-        txtAniName.setText(getIntent().getStringExtra("ani_name"));
-        txtAniType = (TextView) findViewById(R.id.txtAniType);
-        txtAniType.setText(getIntent().getStringExtra("ani_type"));
-        txtAniAge = (TextView) findViewById(R.id.txtAniAge);
-        txtAniAge.setText(getIntent().getStringExtra("ani_age"));
-        txtAniSex = (TextView) findViewById(R.id.txtAniSex);
-        txtAniSex.setText(getIntent().getStringExtra("ani_sex"));
+        animal = dbHelper.getOneAnimal(ani_id);
+        txtName = (TextInputLayout) findViewById(R.id.txtOwner);
+        txtName.getEditText().setInputType(InputType.TYPE_NULL);
+        txtName.getEditText().setText(nameCust);
+        txtAddress = (TextInputLayout) findViewById(R.id.txtAddress);
+        txtAddress.getEditText().setInputType(InputType.TYPE_NULL);
+        txtAddress.getEditText().setText(address);
+        txtPhone = (TextInputLayout) findViewById(R.id.txtPhone);
+        txtPhone.getEditText().setInputType(InputType.TYPE_NULL);
+        txtPhone.getEditText().setText(phone);
+        txtAniName = (TextInputLayout) findViewById(R.id.txtAniName);
+        txtAniName.getEditText().setInputType(InputType.TYPE_NULL);
+        txtAniName.getEditText().setText(animal.getAni_name());
+        txtAniType = (TextInputLayout) findViewById(R.id.txtAniType);
+        txtAniType.getEditText().setInputType(InputType.TYPE_NULL);
+        txtAniType.getEditText().setText(animal.getAni_type());
+        txtAniAge = (TextInputLayout) findViewById(R.id.txtAniAge);
+        txtAniAge.getEditText().setInputType(InputType.TYPE_NULL);
+        txtAniAge.getEditText().setText(String.valueOf(animal.getAni_age()));
+        txtAniSex = (TextInputLayout) findViewById(R.id.txtAniSex);
+        txtAniSex.getEditText().setInputType(InputType.TYPE_NULL);
+        txtAniSex.getEditText().setText(animal.getAni_sex());
 
         populateRecView();
+        implementRecyclerViewClickListeners();
+        anam_id = 0;
+        fabAdd = (FloatingActionButton) findViewById(R.id.fabAdd);
+        fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AnimalDetail.this, AnamnesaDetail.class);
+                String stAniId = String.valueOf(ani_id);
+                String stAnamId = String.valueOf(anam_id);
+                intent.putExtra("phone_no", phone);
+                intent.putExtra("ani_id", stAniId);
+                intent.putExtra("anam_id", stAnamId);
+                startActivity(intent);
+            }
+        });
     }
 
     public void populateRecView() {
@@ -75,6 +101,31 @@ public class AnimalDetail extends AppCompatActivity {
         anamAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.edit_animal, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.edit_animal) {
+            Intent intent = new Intent(AnimalDetail.this, AEAnimal.class);
+            intent.putExtra("phone_no", phone);
+            String stAniID = String.valueOf(ani_id);
+            intent.putExtra("ani_id", stAniID);
+            startActivity(intent);
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void implementRecyclerViewClickListeners() {
         rvAnamnesa.addOnItemTouchListener(new RecyclerTouchListener(this, rvAnamnesa, new RecyclerItemClickListener() {
             @Override
@@ -82,13 +133,19 @@ public class AnimalDetail extends AppCompatActivity {
                 //If ActionMode not null select item
                 if (mActionMode != null)
                     onListItemSelect(position);
-                Anamnesa anamnesa = anamnesaList.get(position);
-//                String ani_id = String.valueOf(animal.getAni_id());
-//                Intent intent = new Intent(this, AnimalDetail.class);
-//                intent.putExtra("phone_no", phone);
-//                intent.putExtra("ani_id", ani_id);
-//                startActivity(intent);
-//                Toast.makeText(this, "Anda memilih " + nama, Toast.LENGTH_SHORT).show();
+                else {
+                    Anamnesa anamnesa = anamnesaList.get(position);
+                    anam_id = anamnesa.getAnam_id();
+                    String stAniID = String.valueOf(ani_id);
+                    String stAnamID = String.valueOf(anam_id);
+                    Intent intent = new Intent(AnimalDetail.this, AnamnesaDetail.class);
+                    intent.putExtra("phone_no", phone);
+                    intent.putExtra("ani_id", stAniID);
+                    intent.putExtra("anam_id", stAnamID);
+                    startActivity(intent);
+//                    Toast.makeText(this, "Anda memilih " + nama, Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override
@@ -108,7 +165,7 @@ public class AnimalDetail extends AppCompatActivity {
 
         if (hasCheckedItems && mActionMode == null) {
             // there are some selected items, start the actionMode
-            mActionMode = ((AppCompatActivity) this).startSupportActionMode(new ToolbarAnamnesa(this, anamAdapter, anamnesaList));
+            mActionMode = ((AppCompatActivity) this).startSupportActionMode(new ToolbarAnamnesa(this, anamAdapter, anamnesaList, AnimalDetail.this));
         } else if (!hasCheckedItems && mActionMode != null)
             // there no selected items, finish the actionMode
             mActionMode.finish();
@@ -136,6 +193,9 @@ public class AnimalDetail extends AppCompatActivity {
         for (int i = (selected.size() - 1); i >= 0; i--) {
             if (selected.valueAt(i)) {
                 //If current id is selected remove the item via key
+                Anamnesa anamnesa = anamnesaList.get(selected.keyAt(i));
+                int anam_id = anamnesa.getAnam_id();
+                dbHelper.deletAnam(anam_id);
                 anamnesaList.remove(selected.keyAt(i));
 
                 anamAdapter.notifyDataSetChanged();//notify anamAdapter
@@ -146,5 +206,13 @@ public class AnimalDetail extends AppCompatActivity {
         mActionMode.finish();//Finish action mode after use
 
     }
-    
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(AnimalDetail.this, AnimalMenu.class);
+        intent.putExtra("phone_no", phone);
+        startActivity(intent);
+        finish();
+    }
 }

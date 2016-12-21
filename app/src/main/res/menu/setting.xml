@@ -9,12 +9,17 @@
         android:title="Search"
         android:icon="@drawable/icon_search"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="always" />
+        app:showAsAction="always|collapseActionView" />
 
-    <item
-        android:id="@+id/actionLogout"
-        android:icon="@drawable/icon_menu"
-        android:title="@string/logout"
-        app:showAsAction="never" />
+    <group >
+        <item
+            android:id="@+id/actionLogout"
+            android:title="@string/logout"
+            app:showAsAction="never|collapseActionView" />
+        <item
+            android:id="@+id/actionExport"
+            android:title="Export"
+            app:showAsAction="never|collapseActionView" />
+    </group>
 
 </menu>

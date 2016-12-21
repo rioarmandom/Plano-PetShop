@@ -42,4 +42,7 @@
 
     <!--String related to title-->
     <string name="edit_id">Edit Id</string>
+
+    <!--String search hint-->
+    <string name="search_hint">Search...</string>
 </resources>

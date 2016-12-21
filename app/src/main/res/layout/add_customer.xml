@@ -11,13 +11,13 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/txtOwner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp">
+            android:layout_marginTop="10dp">
 
             <EditText
                 android:layout_width="match_parent"
@@ -45,8 +45,7 @@
         <android.support.design.widget.TextInputLayout
             android:id="@+id/txtPhone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="200dp">
+            android:layout_height="wrap_content">
 
             <EditText
                 android:layout_width="match_parent"
@@ -58,14 +57,21 @@
 
         </android.support.design.widget.TextInputLayout>
 
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@android:drawable/ic_menu_save" />
+            android:src="@android:drawable/ic_menu_save"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

@@ -52,7 +52,6 @@ public class AnimalFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        Log.d("Phone", phone);
         int cust_id = databaseHelper.getIdCust(phone);
         animalList = databaseHelper.getAnimal(cust_id);
         adapter = new AnimalAdapter(getActivity(), animalList);
@@ -66,22 +65,16 @@ public class AnimalFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 //If ActionMode not null select item
-                if (mActionMode != null)
+                if (mActionMode != null) {
                     onListItemSelect(position);
-                Animal animal = animalList.get(position);
-                String ani_id = String.valueOf(animal.getAni_id());
-                String ani_name = animal.getAni_name();
-                String ani_type = animal.getAni_type();
-                String ani_age = String.valueOf(animal.getAni_age());
-                String ani_sex = animal.getAni_sex();
-                Intent intent = new Intent(getActivity(), AnimalDetail.class);
-                intent.putExtra("phone_no", phone);
-                intent.putExtra("ani_id", ani_id);
-                intent.putExtra("ani_name", ani_name);
-                intent.putExtra("ani_type", ani_type);
-                intent.putExtra("ani_age", ani_age);
-                intent.putExtra("ani_sex", ani_sex);
-                startActivity(intent);
+                } else {
+                    Animal animal = animalList.get(position);
+                    String ani_id = String.valueOf(animal.getAni_id());
+                    Intent intent = new Intent(getActivity(), AnimalDetail.class);
+                    intent.putExtra("phone_no", phone);
+                    intent.putExtra("ani_id", ani_id);
+                    startActivity(intent);
+                }
 //                Toast.makeText(getActivity(), "Anda memilih " + nama, Toast.LENGTH_SHORT).show();
             }
 
@@ -125,13 +118,17 @@ public class AnimalFragment extends Fragment {
     public void deleteRows() {
         SparseBooleanArray selected = adapter.getSelectedIds();//Get selected ids
 
-
         //Loop all selected ids
         for (int i = (selected.size() - 1); i >= 0; i--) {
             if (selected.valueAt(i)) {
                 //If current id is selected remove the item via key
-                animalList.remove(selected.keyAt(i));
-
+                Animal animal = animalList.get(selected.keyAt(i));
+                int ani_id = animal.getAni_id();
+                if (databaseHelper.deleteAnimal(ani_id) > 0) {
+                    animalList.remove(selected.keyAt(i));
+                } else {
+                    Toast.makeText(getActivity(), "Can't delete animal", Toast.LENGTH_SHORT).show();
+                }
                 adapter.notifyDataSetChanged();//notify adapter
 
             }

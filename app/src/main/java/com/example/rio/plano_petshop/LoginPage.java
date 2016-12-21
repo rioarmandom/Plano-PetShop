@@ -2,6 +2,7 @@ package com.example.rio.plano_petshop;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 public class LoginPage extends AppCompatActivity {
 
     DatabaseHelper databaseHelper;
+
+    private boolean exit = false;
 
     // Declaring input for process
     TextInputLayout txtPassword, txtUsername;
@@ -74,9 +77,26 @@ public class LoginPage extends AppCompatActivity {
         txtPassword = (TextInputLayout) findViewById(R.id.txtPassword);
     }
 
-//    public void underLollipop() {
-//        // Declaring TextInputLayout with the id from xml file
-//        etUsername = (EditText) findViewById(R.id.etUsername);
-//        etPassword = (EditText) findViewById(R.id.etPassword);
-//    }
+    @Override
+    public void onBackPressed() {
+        if (exit) {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//***Change Here***
+            startActivity(intent);
+            finish();
+            System.exit(0);
+        } else {
+            Toast.makeText(this, "Press Back again to Exit.",
+                    Toast.LENGTH_SHORT).show();
+            exit = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    exit = false;
+                }
+            }, 3 * 1000);
+
+        }
+    }
 }

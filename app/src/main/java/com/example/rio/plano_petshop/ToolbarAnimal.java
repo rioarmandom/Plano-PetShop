@@ -40,7 +40,7 @@ public class ToolbarAnimal implements ActionMode.Callback {
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_delete:
-                Fragment recyclerFragment = new MainMenu().getFragment(0);//Get recycler view fragment
+                Fragment recyclerFragment = new AnimalMenu().getFragment(0);//Get recycler view fragment
                 if (recyclerFragment != null)
                     //If recycler fragment not null
                     ((AnimalFragment) recyclerFragment).deleteRows();//delete selected rows
@@ -54,7 +54,7 @@ public class ToolbarAnimal implements ActionMode.Callback {
         //When action mode destroyed remove selected selections and set action mode to null
         //First check current fragment action mode
         animalAdapter.removeSelection();  // remove selection
-        Fragment recyclerFragment = new MainMenu().getFragment(0);//Get recycler fragment
+        Fragment recyclerFragment = new AnimalMenu().getFragment(0);//Get recycler fragment
         if (recyclerFragment != null)
             ((AnimalFragment) recyclerFragment).setNullToActionMode();//Set action mode null
     }

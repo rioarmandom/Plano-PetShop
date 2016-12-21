@@ -32,9 +32,6 @@ public class SignUpPage extends AppCompatActivity {
     Button btnCreate;
     Toolbar toolbar;
 
-//    DatePickerDialog dpdBirthday;
-//    SimpleDateFormat dateFormatter;
-
     DatabaseHelper databaseHelper;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -43,8 +40,6 @@ public class SignUpPage extends AppCompatActivity {
         super.onCreate(bundle);
         setContentView(R.layout.sign_up);
         databaseHelper = new DatabaseHelper(getApplicationContext());
-//        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
-//        setDateTimeField();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.button_signup);
@@ -67,9 +62,10 @@ public class SignUpPage extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String password = txtPassword.getEditText().getText().toString();
-                String repassword = txtRePassword.getEditText().getText().toString();
-                if (!password.equals(repassword)) {
+                if (!s.equals(password)) {
                     txtRePassword.setError("Not match with password");
+                } else {
+                    txtRePassword.setErrorEnabled(false);
                 }
             }
 
@@ -92,8 +88,6 @@ public class SignUpPage extends AppCompatActivity {
                 String phone = txtPhone.getEditText().getText().toString();
                 String password = txtPassword.getEditText().getText().toString();
                 String repassword = txtRePassword.getEditText().getText().toString();
-                System.out.println(password);
-                System.out.println(repassword);
                 if (password.equals(repassword)) {
                     User user = new User(name, username, Integer.parseInt(age), address,birthday, email, phone);
                     boolean createStat = databaseHelper.createUser(user, password);
@@ -113,27 +107,4 @@ public class SignUpPage extends AppCompatActivity {
             }
         });
     }
-
-
-//    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-//    public void setDateTimeField() {
-//        txtBirthday.getEditText().setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dpdBirthday.show();
-//            }
-//        });
-//        Calendar newCalendar = Calendar.getInstance();
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            dpdBirthday = new DatePickerDialog(this, new OnDateSetListener() {
-//                @Override
-//                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-//                    Calendar newDate = Calendar.getInstance();
-//                    newDate.set(year, month, dayOfMonth);
-//                    txtBirthday.getEditText().setText(dateFormatter.format(newDate.getTime()), TextView.BufferType.EDITABLE);
-//                }
-//            },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-//        }
-//    }
-
 }

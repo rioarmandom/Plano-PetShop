@@ -18,9 +18,9 @@ public class ToolbarAnamnesa implements ActionMode.Callback {
     private List<Anamnesa> anamnesaList;
     private AnimalDetail animalDetail;
 
-    public ToolbarAnamnesa(Context context, AnamAdapter anamAdapter, List<Anamnesa> anamnesaList) {
+    public ToolbarAnamnesa(Context context, AnamAdapter anamAdapter, List<Anamnesa> anamnesaList, AnimalDetail animalDetail) {
         this.context = context;
-        animalDetail = new AnimalDetail();
+        this.animalDetail = animalDetail;
         this.anamAdapter = anamAdapter;
         this.anamnesaList = anamnesaList;
     }

@@ -128,14 +128,14 @@ public class CustomerFragment extends Fragment {
     }
 
     public void filter(String name) {
-        customerList.clear();
-        if (name.isEmpty()) {
-            customerList.addAll(databaseHelper.getAllCust());
+        if (name.isEmpty() || name.equals("")) {
+            customerList = databaseHelper.getAllCust();
         } else {
-            List<Customer> customers = new ArrayList<>();
-            customers = databaseHelper.searchCustomer(name);
-            customerList.addAll(customers);
+            customerList.clear();
+            customerList = databaseHelper.searchCustomer(name);
         }
+        adapter = new CustomerAdapter(getActivity(), customerList);
+        recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
 }

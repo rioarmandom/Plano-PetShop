@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,8 +18,7 @@ import android.widget.Toast;
 /**
  * Created by almanalfaruq on 18/11/2016.
  */
-// Todo : search customer
-public class MainMenu extends AppCompatActivity {
+public class MainMenu extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private static ViewPagerAdapter adapter;
 
@@ -28,6 +26,7 @@ public class MainMenu extends AppCompatActivity {
     ViewPager viewPager;
     FloatingActionButton fabAdd;
     DatabaseHelper databaseHelper;
+    ExportDatabaseCSV exportDatabase;
     Bundle bundle;
 
     @Override
@@ -48,7 +47,7 @@ public class MainMenu extends AppCompatActivity {
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenu.this, AddCustPage.class);
+                Intent intent = new Intent(MainMenu.this, AECustomer.class);
                 startActivity(intent);
             }
         });
@@ -58,7 +57,9 @@ public class MainMenu extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.setting, menu);
-        return true;
+        SearchView searchView = (SearchView) menu.findItem(R.id.actionSearch).getActionView();
+        searchView.setOnQueryTextListener(this);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -93,27 +94,10 @@ public class MainMenu extends AppCompatActivity {
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
-        } else if (id == R.id.actionSearch) {
-            final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    Fragment recyclerFragment = new MainMenu().getFragment(0);//Get recycler fragment
-                    Toast.makeText(MainMenu.this, "Search for " + query, Toast.LENGTH_SHORT).show();
-                    if (recyclerFragment != null)
-                        ((CustomerFragment) recyclerFragment).filter(query);
-                    return true;
-                }
-
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    Fragment recyclerFragment = new MainMenu().getFragment(0);//Get recycler fragment
-                    Toast.makeText(MainMenu.this, "Search for " + newText, Toast.LENGTH_SHORT).show();
-                    if (recyclerFragment != null)
-                        ((CustomerFragment) recyclerFragment).filter(newText);
-                    return true;
-                }
-            });
+        } else if (id == R.id.actionExport) {
+            exportDatabase = new ExportDatabaseCSV(MainMenu.this);
+            exportDatabase.execute();
+//            Toast.makeText(MainMenu.this, "Can't export yet", Toast.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -130,5 +114,23 @@ public class MainMenu extends AppCompatActivity {
     //Return current fragment on basis of Position
     public Fragment getFragment(int pos) {
         return adapter.getItem(pos);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        Fragment recyclerFragment = new MainMenu().getFragment(0);//Get recycler fragment
+        Toast.makeText(MainMenu.this, "Search for " + query, Toast.LENGTH_SHORT).show();
+        if (recyclerFragment != null)
+            ((CustomerFragment) recyclerFragment).filter(query);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        Fragment recyclerFragment = new MainMenu().getFragment(0);//Get recycler fragment
+        Toast.makeText(MainMenu.this, "Search for " + newText, Toast.LENGTH_SHORT).show();
+        if (recyclerFragment != null)
+            ((CustomerFragment) recyclerFragment).filter(newText);
+        return true;
     }
 }
