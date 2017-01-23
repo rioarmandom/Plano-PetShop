@@ -1,4 +1,4 @@
-package com.example.rio.plano_petshop;
+package com.example.rio.plano_petshop.Animal;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,10 +7,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.example.rio.plano_petshop.Customer.AECustomer;
+import com.example.rio.plano_petshop.DatabaseHelper;
+import com.example.rio.plano_petshop.MainMenu;
+import com.example.rio.plano_petshop.R;
+import com.example.rio.plano_petshop.ViewPagerAdapter;
 
 /**
  * Created by almanalfaruq on 22/11/2016.
@@ -48,6 +53,7 @@ public class AnimalMenu extends AppCompatActivity {
                 Intent intent = new Intent(AnimalMenu.this, AEAnimal.class);
                 intent.putExtra("phone_no", phone);
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -95,4 +101,6 @@ public class AnimalMenu extends AppCompatActivity {
     public Fragment getFragment(int pos) {
         return adapter.getItem(pos);
     }
+
+
 }

@@ -1,4 +1,4 @@
-package com.example.rio.plano_petshop;
+package com.example.rio.plano_petshop.Animal;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,12 +6,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.example.rio.plano_petshop.DatabaseHelper;
+import com.example.rio.plano_petshop.Model.Animal;
+import com.example.rio.plano_petshop.R;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 /**

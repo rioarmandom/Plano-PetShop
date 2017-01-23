@@ -1,4 +1,4 @@
-package com.example.rio.plano_petshop;
+package com.example.rio.plano_petshop.Anamnesa;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -13,6 +13,11 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.example.rio.plano_petshop.Animal.AnimalDetail;
+import com.example.rio.plano_petshop.DatabaseHelper;
+import com.example.rio.plano_petshop.Model.Anamnesa;
+import com.example.rio.plano_petshop.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -105,9 +110,11 @@ public class AnamnesaDetail extends AppCompatActivity {
                             , txtAnamnesa.getEditText().getText().toString()
                             , txtTeraphy.getEditText().getText().toString());
                     if (dbHelper.updateAnamnesa(anamnesa)) {
-                        Intent intent = new Intent(AnamnesaDetail.this, AnimalDetail.class);
+                        Intent intent = new Intent(AnamnesaDetail.this, AnamMenu.class);
                         String stAniId = String.valueOf(ani_id);
+                        String stAnamId = String.valueOf(anam_id);
                         intent.putExtra("ani_id", stAniId);
+                        intent.putExtra("anam_id", stAnamId);
                         intent.putExtra("phone_no", phone);
                         startActivity(intent);
                         finish();
@@ -125,9 +132,11 @@ public class AnamnesaDetail extends AppCompatActivity {
                             , txtAnamnesa.getEditText().getText().toString()
                             , txtTeraphy.getEditText().getText().toString());
                     if (dbHelper.createAnamnesa(anamnesa)) {
-                        Intent intent = new Intent(AnamnesaDetail.this, AnimalDetail.class);
+                        Intent intent = new Intent(AnamnesaDetail.this, AnamMenu.class);
                         String stAniId = String.valueOf(ani_id);
+                        String stAnamId = String.valueOf(anam_id);
                         intent.putExtra("ani_id", stAniId);
+                        intent.putExtra("anam_id", stAnamId);
                         intent.putExtra("phone_no", phone);
                         startActivity(intent);
                         finish();
@@ -137,5 +146,18 @@ public class AnamnesaDetail extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(AnamnesaDetail.this, AnamMenu.class);
+        String stAniId = String.valueOf(ani_id);
+        String stAnamId = String.valueOf(anam_id);
+        intent.putExtra("ani_id", stAniId);
+        intent.putExtra("anam_id", stAnamId);
+        intent.putExtra("phone_no", phone);
+        startActivity(intent);
+        finish();
     }
 }

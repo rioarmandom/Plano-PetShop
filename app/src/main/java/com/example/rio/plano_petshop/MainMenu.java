@@ -3,6 +3,7 @@ package com.example.rio.plano_petshop;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -15,12 +16,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.rio.plano_petshop.Customer.AECustomer;
+import com.example.rio.plano_petshop.Customer.CustomerFragment;
+
 /**
  * Created by almanalfaruq on 18/11/2016.
  */
 public class MainMenu extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private static ViewPagerAdapter adapter;
+
+    private boolean exit = false;
 
     Toolbar toolbar;
     ViewPager viewPager;
@@ -33,6 +39,9 @@ public class MainMenu extends AppCompatActivity implements SearchView.OnQueryTex
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainmenu);
+        if(getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+        }
         databaseHelper = new DatabaseHelper(this);
         bundle = new Bundle();
 
@@ -49,6 +58,7 @@ public class MainMenu extends AppCompatActivity implements SearchView.OnQueryTex
             public void onClick(View v) {
                 Intent intent = new Intent(MainMenu.this, AECustomer.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -132,5 +142,28 @@ public class MainMenu extends AppCompatActivity implements SearchView.OnQueryTex
         if (recyclerFragment != null)
             ((CustomerFragment) recyclerFragment).filter(newText);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        if (exit) {
+            Intent intent = new Intent(this, MainMenu.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("EXIT", true);
+            startActivity(intent);
+            finish();
+        } else {
+            Toast.makeText(this, "Press Back again to Exit.",
+                    Toast.LENGTH_SHORT).show();
+            exit = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    exit = false;
+                }
+            }, 3 * 1000);
+
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.rio.plano_petshop;
+package com.example.rio.plano_petshop.Model;
 
 /**
  * Created by almanalfaruq on 13/12/2016.

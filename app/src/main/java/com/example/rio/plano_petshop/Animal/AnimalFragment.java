@@ -1,4 +1,4 @@
-package com.example.rio.plano_petshop;
+package com.example.rio.plano_petshop.Animal;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,12 +8,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.example.rio.plano_petshop.DatabaseHelper;
+import com.example.rio.plano_petshop.Model.Animal;
+import com.example.rio.plano_petshop.R;
+import com.example.rio.plano_petshop.RecyclerItemClickListener;
+import com.example.rio.plano_petshop.RecyclerTouchListener;
 
 import java.util.ArrayList;
 import java.util.List;

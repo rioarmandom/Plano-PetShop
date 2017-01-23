@@ -1,4 +1,4 @@
-package com.example.rio.plano_petshop;
+package com.example.rio.plano_petshop.Animal;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +10,23 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
+
+import com.example.rio.plano_petshop.Anamnesa.AnamAdapter;
+import com.example.rio.plano_petshop.Anamnesa.AnamMenu;
+import com.example.rio.plano_petshop.Model.Anamnesa;
+import com.example.rio.plano_petshop.Anamnesa.AnamnesaDetail;
+import com.example.rio.plano_petshop.DatabaseHelper;
+import com.example.rio.plano_petshop.Model.Animal;
+import com.example.rio.plano_petshop.R;
+import com.example.rio.plano_petshop.RecyclerItemClickListener;
+import com.example.rio.plano_petshop.RecyclerTouchListener;
+import com.example.rio.plano_petshop.Anamnesa.ToolbarAnamnesa;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +37,8 @@ import java.util.List;
 public class AnimalDetail extends AppCompatActivity {
 
     Toolbar toolbar;
-    FloatingActionButton fabAdd;
+    Button btnAnamnesa;
     TextInputLayout txtName, txtAddress, txtPhone, txtAniName, txtAniType, txtAniAge, txtAniSex;
-    RecyclerView rvAnamnesa;
-    private static List<Anamnesa> anamnesaList = new ArrayList<>();
-    ActionMode mActionMode;
-    AnamAdapter anamAdapter;
     Animal animal;
     DatabaseHelper dbHelper;
     String phone;
@@ -72,15 +79,12 @@ public class AnimalDetail extends AppCompatActivity {
         txtAniSex = (TextInputLayout) findViewById(R.id.txtAniSex);
         txtAniSex.getEditText().setInputType(InputType.TYPE_NULL);
         txtAniSex.getEditText().setText(animal.getAni_sex());
-
-        populateRecView();
-        implementRecyclerViewClickListeners();
         anam_id = 0;
-        fabAdd = (FloatingActionButton) findViewById(R.id.fabAdd);
-        fabAdd.setOnClickListener(new View.OnClickListener() {
+        btnAnamnesa = (Button) findViewById(R.id.btnAnamnesa);
+        btnAnamnesa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AnimalDetail.this, AnamnesaDetail.class);
+                Intent intent = new Intent(AnimalDetail.this, AnamMenu.class);
                 String stAniId = String.valueOf(ani_id);
                 String stAnamId = String.valueOf(anam_id);
                 intent.putExtra("phone_no", phone);
@@ -89,16 +93,6 @@ public class AnimalDetail extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    public void populateRecView() {
-        rvAnamnesa = (RecyclerView) findViewById(R.id.rvAnamnesa);
-        rvAnamnesa.setHasFixedSize(true);
-        rvAnamnesa.setLayoutManager(new LinearLayoutManager(this));
-        anamnesaList = dbHelper.getAnamnesa(ani_id);
-        anamAdapter = new AnamAdapter(this, anamnesaList);
-        rvAnamnesa.setAdapter(anamAdapter);
-        anamAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -124,87 +118,6 @@ public class AnimalDetail extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void implementRecyclerViewClickListeners() {
-        rvAnamnesa.addOnItemTouchListener(new RecyclerTouchListener(this, rvAnamnesa, new RecyclerItemClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                //If ActionMode not null select item
-                if (mActionMode != null)
-                    onListItemSelect(position);
-                else {
-                    Anamnesa anamnesa = anamnesaList.get(position);
-                    anam_id = anamnesa.getAnam_id();
-                    String stAniID = String.valueOf(ani_id);
-                    String stAnamID = String.valueOf(anam_id);
-                    Intent intent = new Intent(AnimalDetail.this, AnamnesaDetail.class);
-                    intent.putExtra("phone_no", phone);
-                    intent.putExtra("ani_id", stAniID);
-                    intent.putExtra("anam_id", stAnamID);
-                    startActivity(intent);
-//                    Toast.makeText(this, "Anda memilih " + nama, Toast.LENGTH_SHORT).show();
-                }
-
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-                //Select item on long click
-                onListItemSelect(position);
-            }
-        }));
-    }
-
-    //List item select method
-    private void onListItemSelect(int position) {
-        anamAdapter.toggleSelection(position);//Toggle the selection
-
-        boolean hasCheckedItems = anamAdapter.getSelectedCount() > 0;//Check if any items are already selected or not
-
-
-        if (hasCheckedItems && mActionMode == null) {
-            // there are some selected items, start the actionMode
-            mActionMode = ((AppCompatActivity) this).startSupportActionMode(new ToolbarAnamnesa(this, anamAdapter, anamnesaList, AnimalDetail.this));
-        } else if (!hasCheckedItems && mActionMode != null)
-            // there no selected items, finish the actionMode
-            mActionMode.finish();
-
-        if (mActionMode != null)
-            //set action mode title on item selection
-            mActionMode.setTitle(String.valueOf(anamAdapter
-                    .getSelectedCount()) + " selected");
-        anamAdapter.getItemId(position);
-
-    }
-
-    //Set action mode null after use
-    public void setNullToActionMode() {
-        if (mActionMode != null)
-            mActionMode = null;
-    }
-
-    //Delete selected rows
-    public void deleteRows() {
-        SparseBooleanArray selected = anamAdapter.getSelectedIds();//Get selected ids
-
-
-        //Loop all selected ids
-        for (int i = (selected.size() - 1); i >= 0; i--) {
-            if (selected.valueAt(i)) {
-                //If current id is selected remove the item via key
-                Anamnesa anamnesa = anamnesaList.get(selected.keyAt(i));
-                int anam_id = anamnesa.getAnam_id();
-                dbHelper.deletAnam(anam_id);
-                anamnesaList.remove(selected.keyAt(i));
-
-                anamAdapter.notifyDataSetChanged();//notify anamAdapter
-
-            }
-        }
-        Toast.makeText(this, selected.size() + " item deleted.", Toast.LENGTH_SHORT).show();//Show Toast
-        mActionMode.finish();//Finish action mode after use
-
     }
 
     @Override

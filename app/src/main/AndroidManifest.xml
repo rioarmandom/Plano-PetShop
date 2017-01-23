@@ -36,20 +36,23 @@
         <activity android:name=".MainMenu"
             android:label="Main Page">
         </activity>
-        <activity android:name=".AECustomer"
+        <activity android:name=".Customer.AECustomer"
             android:label="Add Customer">
         </activity>
-        <activity android:name=".AnimalMenu"
+        <activity android:name=".Animal.AnimalMenu"
             android:label="Animal Page">
         </activity>
-        <activity android:name=".AEAnimal"
+        <activity android:name=".Animal.AEAnimal"
             android:label="Add Animal">
         </activity>
-        <activity android:name=".AnimalDetail"
+        <activity android:name=".Animal.AnimalDetail"
             android:label="Animal Detail">
         </activity>
-        <activity android:name=".AnamnesaDetail"
+        <activity android:name=".Anamnesa.AnamnesaDetail"
             android:label="Anamnesa Detail">
+        </activity>
+        <activity android:name=".Anamnesa.AnamMenu"
+            android:label="Anamnesa Menu">
         </activity>
     </application>
 

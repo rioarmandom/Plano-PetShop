@@ -1,9 +1,9 @@
-package com.example.rio.plano_petshop;
+package com.example.rio.plano_petshop.Anamnesa;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,30 +14,43 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.rio.plano_petshop.DatabaseHelper;
+import com.example.rio.plano_petshop.Model.Anamnesa;
+import com.example.rio.plano_petshop.R;
+import com.example.rio.plano_petshop.RecyclerItemClickListener;
+import com.example.rio.plano_petshop.RecyclerTouchListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by almanalfaruq on 18/11/2016.
+ * Created by almanalfaruq on 22/01/2017.
  */
 
-public class CustomerFragment extends Fragment {
+public class AnamnesaFragment extends Fragment {
 
     private static View view;
     private static RecyclerView recyclerView;
-    private static List<Customer> customerList = new ArrayList<>();
-    private static CustomerAdapter adapter;
+    private static List<Anamnesa> anamnesaList = new ArrayList<>();
+    private static AnamAdapter adapter;
     private ActionMode mActionMode;
     private DatabaseHelper databaseHelper;
+    private int id, anam_id, ani_id;
+    Bundle bundle;
+    private String phone;
 
-    public CustomerFragment() {
+    public AnamnesaFragment() {
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedBundleInstance) {
         view = inflater.inflate(R.layout.recycler_view, container, false);
         databaseHelper = new DatabaseHelper(getActivity());
+        bundle = this.getArguments();
+        phone = bundle.getString("phone_no");
+        ani_id = bundle.getInt("ani_id");
+        anam_id = bundle.getInt("anam_id");
         populateRecyclerView();
         implementRecyclerViewClickListeners();
         return view;
@@ -48,8 +61,8 @@ public class CustomerFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        customerList = databaseHelper.getAllCust();
-        adapter = new CustomerAdapter(getActivity(), customerList);
+        anamnesaList = databaseHelper.getAnamnesa(ani_id);
+        adapter = new AnamAdapter(getActivity(), anamnesaList);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -63,10 +76,14 @@ public class CustomerFragment extends Fragment {
                 if (mActionMode != null)
                     onListItemSelect(position);
                 else {
-                    Customer customer = customerList.get(position);
-                    String phone = customer.getPhone_no();
-                    Intent intent = new Intent(getContext(), AnimalMenu.class);
+                    Anamnesa anamnesa = anamnesaList.get(position);
+                    anam_id = anamnesa.getAnam_id();
+                    String stAniID = String.valueOf(ani_id);
+                    String stAnamID = String.valueOf(anam_id);
+                    Intent intent = new Intent(getContext(), AnamnesaDetail.class);
                     intent.putExtra("phone_no", phone);
+                    intent.putExtra("ani_id", stAniID);
+                    intent.putExtra("anam_id", stAnamID);
                     startActivity(intent);
                 }
             }
@@ -88,7 +105,8 @@ public class CustomerFragment extends Fragment {
 
         if (hasCheckedItems && mActionMode == null)
             // there are some selected items, start the actionMode
-            mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new ToolbarCustomer(getActivity(),adapter, customerList));
+            mActionMode = ((AppCompatActivity) getActivity())
+                    .startSupportActionMode(new ToolbarAnamnesa(getActivity(),adapter, anamnesaList));
         else if (!hasCheckedItems && mActionMode != null)
             // there no selected items, finish the actionMode
             mActionMode.finish();
@@ -97,7 +115,7 @@ public class CustomerFragment extends Fragment {
             //set action mode title on item selection
             mActionMode.setTitle(String.valueOf(adapter
                     .getSelectedCount()) + " selected");
-            adapter.getItemId(position);
+        adapter.getItemId(position);
 
     }
     //Set action mode null after use
@@ -114,10 +132,10 @@ public class CustomerFragment extends Fragment {
         for (int i = (selected.size() - 1); i >= 0; i--) {
             if (selected.valueAt(i)) {
                 //If current id is selected remove the item via key
-                Customer customer = customerList.get(selected.keyAt(i));
-                String phone = customer.getPhone_no();
-                databaseHelper.deleteCust(phone);
-                customerList.remove(selected.keyAt(i));
+                Anamnesa anamnesa = anamnesaList.get(selected.keyAt(i));
+                int anam_id = anamnesa.getAnam_id();
+                databaseHelper.deletAnam(anam_id);
+                anamnesaList.remove(selected.keyAt(i));
 
                 adapter.notifyDataSetChanged();//notify adapter
 
@@ -127,15 +145,4 @@ public class CustomerFragment extends Fragment {
         mActionMode.finish();//Finish action mode after use
     }
 
-    public void filter(String name) {
-        if (name.isEmpty() || name.equals("")) {
-            customerList = databaseHelper.getAllCust();
-        } else {
-            customerList.clear();
-            customerList = databaseHelper.searchCustomer(name);
-        }
-        adapter = new CustomerAdapter(getActivity(), customerList);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-    }
 }

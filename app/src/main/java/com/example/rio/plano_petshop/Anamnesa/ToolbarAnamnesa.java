@@ -1,9 +1,14 @@
-package com.example.rio.plano_petshop;
+package com.example.rio.plano_petshop.Anamnesa;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v7.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.rio.plano_petshop.Animal.AnimalDetail;
+import com.example.rio.plano_petshop.Model.Anamnesa;
+import com.example.rio.plano_petshop.R;
 
 import java.util.List;
 
@@ -16,11 +21,9 @@ public class ToolbarAnamnesa implements ActionMode.Callback {
     private Context context;
     private AnamAdapter anamAdapter;
     private List<Anamnesa> anamnesaList;
-    private AnimalDetail animalDetail;
 
-    public ToolbarAnamnesa(Context context, AnamAdapter anamAdapter, List<Anamnesa> anamnesaList, AnimalDetail animalDetail) {
+    public ToolbarAnamnesa(Context context, AnamAdapter anamAdapter, List<Anamnesa> anamnesaList) {
         this.context = context;
-        this.animalDetail = animalDetail;
         this.anamAdapter = anamAdapter;
         this.anamnesaList = anamnesaList;
     }
@@ -41,7 +44,10 @@ public class ToolbarAnamnesa implements ActionMode.Callback {
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_delete:
-                animalDetail.deleteRows();//delete selected rows
+                Fragment recyclerFragment = new AnamMenu().getFragment(0);//Get recycler view fragment
+                if (recyclerFragment != null)
+                    //If recycler fragment not null
+                    ((AnamnesaFragment) recyclerFragment).deleteRows();//delete selected rows
                 break;
         }
         return false;
@@ -52,6 +58,8 @@ public class ToolbarAnamnesa implements ActionMode.Callback {
         //When action mode destroyed remove selected selections and set action mode to null
         //First check current fragment action mode
         anamAdapter.removeSelection();  // remove selection
-        animalDetail.setNullToActionMode();//Set action mode null
+        Fragment recyclerFragment = new AnamMenu().getFragment(0);//Get recycler fragment
+        if (recyclerFragment != null)
+            ((AnamnesaFragment) recyclerFragment).setNullToActionMode();//Set action mode null
     }
 }

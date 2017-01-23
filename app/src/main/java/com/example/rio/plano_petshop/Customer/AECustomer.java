@@ -1,4 +1,4 @@
-package com.example.rio.plano_petshop;
+package com.example.rio.plano_petshop.Customer;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,10 +9,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.rio.plano_petshop.Animal.AEAnimal;
+import com.example.rio.plano_petshop.DatabaseHelper;
+import com.example.rio.plano_petshop.MainMenu;
+import com.example.rio.plano_petshop.Model.Customer;
+import com.example.rio.plano_petshop.R;
+
 /**
  * Created by almanalfaruq on 19/11/2016.
  */
-public class AECustomer extends AppCompatActivity {
+public class
+AECustomer extends AppCompatActivity {
 
     Toolbar toolbar;
     FloatingActionButton fabSave;

@@ -5,10 +5,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.provider.SyncStateContract;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.rio.plano_petshop.Model.Semuanya;
 import com.opencsv.CSVWriter;
 
 import java.io.File;
